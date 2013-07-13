@@ -31,6 +31,8 @@ class LoadOrdersData extends DataFixture
                 $item->setVariant($variant);
                 $item->setUnitPrice($variant->getPrice());
                 $item->setQuantity(rand(1, 5));
+
+                $order->addItem($item);
             }
 
             $shipment = $this->getShipmentRepository()->createNew();
@@ -50,6 +52,7 @@ class LoadOrdersData extends DataFixture
             $order->setCreatedAt($this->faker->dateTimeBetween('1 year ago', 'now'));
 
             $order->calculateTotal();
+            $order->complete();
 
             $this->setReference('Sylius.Order-'.$i, $order);
 
@@ -74,7 +77,7 @@ class LoadOrdersData extends DataFixture
         } while ('UK' === $isoName);
 
         $country = $this->getReference('Sylius.Country.'.$isoName);
-        $province = $country->hasProvinces() ? $this->faker->randomElement($country->getProvinces()) : null;
+        $province = $country->hasProvinces() ? $this->faker->randomElement($country->getProvinces()->toArray()) : null;
 
         $address->setCountry($country);
         $address->setProvince($province);
