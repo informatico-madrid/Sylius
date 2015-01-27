@@ -7,6 +7,10 @@ payum:
         token_storage:
             Sylius\Bundle\PayumBundle\Model\PaymentSecurityToken: { doctrine: orm }
 
+    dynamic_payments:
+        config_storage:
+            Sylius\Bundle\PayumBundle\Model\PaymentConfig: { doctrine: orm }
+
     payments:
         paypal_express_checkout:
             paypal_express_checkout_nvp:
