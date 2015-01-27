@@ -18,6 +18,7 @@
 
     <parameters>
         <parameter key="sylius.repository.payment_security_token.class">Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository</parameter>
+        <parameter key="sylius.repository.payment_config.class">Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository</parameter>
     </parameters>
 
     <services>
@@ -31,6 +32,20 @@
                     class="Doctrine\ORM\Mapping\ClassMetadata"
                 >
                     <argument>%sylius.model.payment_security_token.class%</argument>
+                </service>
+            </argument>
+        </service>
+
+        <service id="sylius.manager.payment_config" alias="doctrine.orm.entity_manager" />
+        <service id="sylius.repository.payment_config" class="%sylius.repository.payment_config.class%">
+            <argument type="service" id="sylius.manager.payment_config" />
+            <argument type="service">
+                <service
+                    factory-service="sylius.manager.payment_config"
+                    factory-method="getClassMetadata"
+                    class="Doctrine\ORM\Mapping\ClassMetadata"
+                >
+                    <argument>%sylius.model.payment_config.class%</argument>
                 </service>
             </argument>
         </service>
